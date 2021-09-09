@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .helpers import now_timestamp
 
 
 class Program:
@@ -7,6 +8,7 @@ class Program:
     content_id: str
     description: str
     ts_start: int
+    ts_stop: int
     type: str
 
     @classmethod
@@ -18,6 +20,7 @@ class Program:
             "content_id": data["epgId"],
             "description": data["shortDescription"],
             "ts_start": data["startTimestamp"],
+            "ts_stop": now_timestamp() - 60000 * 3,  # 3 minutes ago
             "type": "program",
         }
         return obj
@@ -31,6 +34,7 @@ class Program:
             "content_id": data["pvrProgramId"],
             "description": data["longDescription"],
             "ts_start": data["startTime"],
+            "ts_stop": now_timestamp(),
             "type": "recording",
         }
         return obj

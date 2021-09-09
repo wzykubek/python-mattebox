@@ -65,7 +65,7 @@ class MatteBOX:
             "subscriptionCode": self.subscription_code,
             "deviceType": "STB",
             "fromTimestamp": program.ts_start,
-            "toTimestamp": now_timestamp()
+            "toTimestamp": program.ts_stop,
         }
 
         res = self.__get("/sws/server/streaming/uris.json", params=params)
