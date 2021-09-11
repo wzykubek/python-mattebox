@@ -55,8 +55,12 @@ class MatteBOX:
         recordings = [Program.from_recording(r) for r in res["entities"]]
         return recordings
 
-    def get_stream(self, program: Program) -> str:
+    def get_stream(self, program: Program, end: bool = True) -> str:
         service_type = "TIMESHIFT_TV" if program.type == "program" else "NPVR"
+        if end:
+            ts_end = program.ts_stop
+        else:
+            ts_end = now_timestamp() - 60000 * 3  # 3 minutes ago
 
         params = {
             "channelKey": program.channel,
@@ -65,7 +69,7 @@ class MatteBOX:
             "subscriptionCode": self.subscription_code,
             "deviceType": "STB",
             "fromTimestamp": program.ts_start,
-            "toTimestamp": program.ts_stop,
+            "toTimestamp": ts_end,
         }
 
         res = self.__get("/sws/server/streaming/uris.json", params=params)
