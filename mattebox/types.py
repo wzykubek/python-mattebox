@@ -2,6 +2,11 @@ from __future__ import annotations
 
 
 class Program:
+    """Class for single TV program or recording with basic information about it.
+
+    Methods `from_channel_program` and `from_recording` returns class object
+    from data received from API."""
+
     name: str
     channel: str
     epg_id: str
