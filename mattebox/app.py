@@ -4,7 +4,7 @@ import m3u8
 from urllib3.exceptions import HTTPError
 from typing import List
 from .auth import login
-from .consts import API
+from .consts import API, PLATFORM_ID, security_values
 from .helpers import now_timestamp
 from .types import Program
 from .exceptions import RecordingException
@@ -21,7 +21,16 @@ class MatteBOX:
         }
 
     def __get(self, endpoint: str, params: dict) -> dict:
-        res = requests.get(API + endpoint, params=params, cookies=self.cookies)
+        res = requests.get(
+            API + endpoint, params=params, cookies=self.cookies, headers={
+                "X-NanguTv-Platform-Id": PLATFORM_ID,
+                "X-NanguTv-Device-size": "normal",
+                "X-NanguTv-Device-Name": security_values.device_name,
+                "X-NanguTv-App-Version": security_values.app_version,
+                "X-NanguTv-Device-density": security_values.device_density,
+                "User-Agent": security_values.user_agent,
+            }
+        )
         if res.status_code >= 400:
             raise requests.exceptions.BaseHTTPError(res.text)
         return json.loads(res.text)
