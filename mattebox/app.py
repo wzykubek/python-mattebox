@@ -1,11 +1,13 @@
 import requests
 import json
 import m3u8
+from urllib3.exceptions import HTTPError
 from typing import List
 from .auth import login
 from .consts import API
 from .helpers import now_timestamp
 from .types import Program
+from .exceptions import RecordingException
 
 
 class MatteBOX:
@@ -54,6 +56,15 @@ class MatteBOX:
         )
         recordings = [Program.from_recording(r) for r in res["entities"]]
         return recordings
+
+    def add_recording(self, program: Program) -> None:
+        try:
+            self.__get(
+                "/sws/subscription/vod/pvr-add-program.json",
+                params={"epgId": program.epg_id}
+            )
+        except HTTPError as e:
+            raise RecordingException(e) from None
 
     def get_stream(self, program: Program, end: bool = True) -> str:
         service_type = "TIMESHIFT_TV" if program.type == "program" else "NPVR"
