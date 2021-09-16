@@ -23,7 +23,7 @@ class Program:
             "name": data["name"],
             "channel": data["channelKey"],
             "epg_id": data["epgId"],
-            "content_id": obj.epg_id,
+            "content_id": data["epgId"],
             "description": data["shortDescription"],
             "ts_start": data["startTimestamp"],
             "ts_stop": data["endTimestamp"],
