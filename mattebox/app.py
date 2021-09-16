@@ -61,7 +61,16 @@ class MatteBOX:
         try:
             self.__get(
                 "/sws/subscription/vod/pvr-add-program.json",
-                params={"epgId": program.epg_id}
+                params={"epgId": program.epg_id},
+            )
+        except HTTPError as e:
+            raise RecordingException(e) from None
+
+    def remove_recording(self, program: Program) -> None:
+        try:
+            self.__get(
+                "/sws/subscription/vod/pvr-remove-program.json",
+                params={"pvrProgramId": program.content_id},
             )
         except HTTPError as e:
             raise RecordingException(e) from None
