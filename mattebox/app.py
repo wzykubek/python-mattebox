@@ -110,3 +110,22 @@ class MatteBOX:
         variants = m3u8.load(main_playlist_uri)
         playlist = variants.playlists[0]
         return playlist.uri
+
+    def search(
+        self, query: str, over_18: bool = True, results_count: int = 200
+    ) -> List[Program]:
+        res = self.__get("/sws/subscription/search/search.json", params={
+            "audience": "OVER_18" if over_18 else "",  # TODO
+            "entityCount": results_count,
+            "firstEntityOffset": 0,
+            "deviceType": "STB",
+            "facetAll": "true",
+            "isp": "1",
+            "language": "eng",
+            "tariff": "FERO Middleware",
+            "search": query,
+        })
+
+        filtered_results = [e for e in res["entities"] if e["type"] == "EPG"]
+        programs = [Program.from_search_result(p) for p in filtered_results]
+        return programs

@@ -4,8 +4,8 @@ from __future__ import annotations
 class Program:
     """Class for single TV program or recording with basic information about it.
 
-    Methods `from_channel_program` and `from_recording` returns class object
-    from data received from API."""
+    Methods `from_channel_program`, `from_recording`  and `from_search_result` returns
+    class object from data received from API."""
 
     name: str
     channel: str
@@ -42,6 +42,21 @@ class Program:
             "description": data["longDescription"],
             "ts_start": data["startTime"],
             "type": "recording",
+        }
+        return obj
+
+    @classmethod
+    def from_search_result(cls, data: dict) -> Program:
+        obj = cls()
+        obj.__dict__ = {
+            "name": data["name"],
+            "channel": data["channelKey"],
+            "epg_id": data["id"],
+            "content_id": data["id"],
+            "description": data["description"],
+            "ts_start": data["startTimestamp"],
+            "ts_stop": data["endTimestamp"],
+            "type": "program"
         }
         return obj
 
