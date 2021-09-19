@@ -5,7 +5,7 @@ Unofficial Python library for MatteBOX IPTV.
 ## Installing
 
 ```shell
-$ python -m pip install python-mattebox
+$ python -m pip install mattebox
 ```
 
 ## Usage

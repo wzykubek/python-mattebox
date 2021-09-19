@@ -4,6 +4,7 @@ version = "0.0.0"
 description = "Unofficial library for MatteBOX API."
 authors = ["samedamci <samedamci@disroot.org>"]
 license = "ISC"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9.2"
