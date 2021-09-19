@@ -2,11 +2,11 @@
 
 Unofficial Python library for MatteBOX IPTV.
 
-<!-- ## Installing
+## Installing
 
 ```shell
 $ python -m pip install python-mattebox
-``` -->
+```
 
 ## Usage
 
